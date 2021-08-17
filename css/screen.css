@@ -1,0 +1,625 @@
+/*------------------------------------*\
+#FONTS
+\*------------------------------------*/
+
+/*------------------------------------*\
+#Variables
+\*------------------------------------*/
+
+:root {
+	/* colors */
+	--global-color-alpha: #77dd77;
+	--global-color--alpha-dark: #009d1e;
+
+	--global-color-neutral-light: #ffffff;
+	--global-color-neutral: #808495;
+	--global-color-neutral-dark: #000000;
+
+	--global-color-error: #ff3333;
+	--global-color-error-transparent: #ff3333bf;
+	--global-color-error-x-transparent: #ff33334d;
+
+	--global-input-hover-borderColor: var(--global-color-neutral-light);
+	--global-input-focus-borderColor: var(--global-color-alpha);
+
+	/* Whitespace */
+	--global-baseline: 8px;
+	--global-whitespace-xxs: var(--global-baseline);
+	--global-whitespace-xs: calc(var(--global-baseline) * 2); /*16*/
+	--global-whitespace-sm: calc(var(--global-baseline) * 3); /*24*/
+	--global-whitespace-md: calc(var(--global-baseline) * 4); /*32*/
+	--global-whitespace-lg: calc(var(--global-baseline) * 5); /*40*/
+	--global-whitespace-xl: calc(var(--global-baseline) * 6); /*48*/
+	/* Shadows */
+	--global-boxshadow: 1px 5px 8px 1px #888888;
+	/* border radius */
+
+	/* transitions */
+	--transition-alpha: 0.1s;
+}
+
+/*------------------------------------*\
+#GENERIC
+\*------------------------------------*/
+
+/*
+    Generic: Page
+    ---
+    Global page styles + universal box-sizing:
+*/
+
+html {
+	/* font-size: 16px; */
+	line-height: 1.5;
+	font-family: bilo, sans-serif;
+	font-style: normal;
+	box-sizing: border-box;
+	color: var(--color-front);
+	background-color: var(--color-back);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+body,
+html {
+	margin: 0;
+	padding: 0;
+}
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+/*
+* Remove text-shadow in selection highlight:
+* https://twitter.com/miketaylr/status/12228805301
+*
+* Customize the background color to match your design.
+*/
+
+::-moz-selection {
+	background: var(--global-color-alpha);
+	color: white;
+	text-shadow: none;
+}
+
+::selection {
+	background: var(--global-color-alpha);
+	color: white;
+	text-shadow: none;
+}
+
+/*------------------------------------*\
+#Elements
+\*------------------------------------*/
+
+/*
+Elements: Images
+---
+Default markup for images to make them responsive
+*/
+
+img {
+	max-width: 100%;
+	vertical-align: top;
+}
+
+/*
+    Elements: typography
+    ---
+    Default markup for typographic elements
+*/
+
+h1,
+h2,
+h3 {
+	font-weight: 700;
+}
+h1 {
+	font-size: 3rem;
+	line-height: calc(var(--global-baseline) * 6);
+	margin: 0 0 var(--global-whitespace-lg);
+}
+
+h2 {
+	font-size: 2rem;
+	line-height: calc(var(--global-baseline) * 8);
+	margin: 0 0 var(--global-whitespace-lg);
+}
+
+h3 {
+	font-size: 1.625rem;
+	line-height: calc(var(--global-baseline) * 6);
+	margin: 0 0 var(--global-whitespace-md);
+}
+
+h4,
+h5,
+h6 {
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: calc(var(--global-baseline) * 5);
+	margin: 0 0 var(--global-whitespace-md);
+}
+
+p,
+ol,
+ul,
+dl,
+table,
+address,
+figure {
+	margin: 0 0 var(--global-whitespace-md);
+}
+
+ul,
+ol {
+	padding-left: var(--global-whitespace-sm);
+}
+
+li ul,
+li ol {
+	margin-bottom: 0;
+}
+
+blockquote {
+	font-style: normal;
+	font-size: 1.4375rem;
+	line-height: 2rem;
+	margin: 0 0 var(--global-whitespace-sm);
+}
+
+blockquote * {
+	font-size: inherit;
+	line-height: inherit;
+}
+
+figcaption {
+	font-weight: 400;
+	font-size: 0.75rem;
+	line-height: 1rem;
+	margin-top: var(--global-baseline);
+}
+
+hr {
+	border: 0;
+	height: 1px;
+	background: LightGrey;
+	margin: 0 0 var(--global-whitespace-xs);
+}
+
+a {
+	transition: all var(--transition-alpha);
+	color: var(--global-color-alpha);
+	outline-color: var(--global-color-alpha);
+	outline-width: medium;
+	outline-offset: 2px;
+}
+
+a:visited,
+a:active {
+	/* color: var(--global-color-alpha); */
+}
+
+a:hover,
+a:focus {
+	/* color: var(--global-color-alpha-light); */
+}
+
+label,
+input {
+	display: block;
+}
+
+select {
+	width: 100%;
+}
+
+input::placeholder {
+	color: var(--global-color-neutral-light);
+}
+
+/*------------------------------------*\
+#OBJECTS
+\*------------------------------------*/
+
+/*------------------------------------*\
+#COMPONENTS
+\*------------------------------------*/
+/*
+    Component: card
+    ---
+    Chargingstation card
+*/
+.c-getLocation {
+	position: absolute;
+	z-index: 1000;
+	bottom: var(--global-whitespace-md);
+	right: var(--global-whitespace-md);
+	display: block;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50px;
+	box-shadow: var(--global-boxshadow);
+	border: none;
+	background-color: var(--global-color-neutral-light);
+	cursor: pointer;
+}
+
+.c-modal {
+	justify-content: center;
+	align-items: center;
+	display: none;
+	position: fixed;
+	z-index: 1001;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.4);
+}
+.c-card {
+	border-radius: 10px;
+	display: block;
+	width: 90vw;
+	height: 90vh;
+	max-width: 100%;
+	background-color: white;
+	overflow: scroll;
+}
+@media (min-width: 768px) {
+	.c-card {
+		width: 70vw;
+	}
+}
+@media (min-width: 1200px) {
+	.c-card__main {
+		display: grid;
+		margin: var(--global-whitespace-xs) var(--global-baseline) 0px var(--global-baseline);
+		grid-template-columns: 50%, 50%;
+	}
+	.c-card {
+		width: 60vw;
+	}
+}
+/*
+    Component: card controls
+    ---
+    Chargingstation card controls
+*/
+.c-card__controls {
+	display: flex;
+	width: auto;
+	justify-content: space-between;
+	position: absolute;
+	top: var(--global-baseline);
+	left: var(--global-baseline);
+	right: var(--global-baseline);
+}
+.c-card__nav-btn,
+.c-card__close-btn {
+	border: none;
+	padding: var(--global-baseline);
+	display: flex;
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+.c-controls_icon {
+	cursor: pointer;
+	color: var(--global-color-neutral-light);
+}
+/*
+    Component: card header
+    ---
+    Chargingstation card header
+*/
+
+.c-card__header {
+	height: 40vh;
+	position: relative;
+}
+@media (min-width: 768px) {
+	.c-card__header {
+		height: 50vh;
+	}
+}
+@media (min-width: 1200px) {
+	.c-card__header {
+		height: 60vh;
+	}
+}
+
+.c-card__img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+.c-card__title {
+	padding-left: var(--global-baseline);
+	position: absolute;
+	bottom: 0;
+	margin: 0px;
+	font-size: 2rem;
+	line-height: 3rem;
+	width: 100%;
+	color: var(--global-color-neutral-light);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+/*
+    Component: card main
+    ---
+    Chargingstation card info
+*/
+.c-card__main {
+	margin: var(--global-whitespace-xs) var(--global-baseline) 0px var(--global-baseline);
+}
+/*
+    Component: card info
+    ---
+    Chargingstation card info
+*/
+
+.c-card_info_address,
+.c-card_info_contact,
+.c-card_info_type {
+	display: flex;
+}
+.c-card__comment {
+	margin: var(--global-baseline);
+}
+/*
+    Component: card properties
+    ---
+    Chargingstation card properties
+*/
+.c-app__slogan__coloured {
+	color: var(--global-color--alpha-dark);
+}
+.c-card_properties {
+	text-align: center;
+}
+.c-card_properties_icons {
+	display: flex;
+	justify-content: space-evenly;
+}
+@media (min-width: 1200px) {
+	.c-card_properties {
+		grid-column: 2;
+		margin-right: var(--global-baseline);
+	}
+}
+/*
+    Component: Map
+    ---
+    Website map
+*/
+html,
+body,
+.c-map {
+	height: 100%;
+	width: 100%;
+}
+
+/*
+    Component: Icon
+    ---
+    Property icons
+*/
+.c-card_property_icon {
+	opacity: 0.2;
+}
+.c-material-icons {
+	margin-right: var(--global-baseline);
+}
+/*
+    Component: Popup
+    ---
+    Popup 
+*/
+.c-popup {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	justify-content: space-between;
+}
+/*
+    Component: Loader
+    ---
+    Website loader
+*/
+.c-loading-screen {
+	opacity: 1;
+	transition: opacity 1s ease;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100vw;
+	height: 100vh;
+	background-color: var(--global-color-neutral-light);
+	transform: translate(-50%, -50%);
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.c-loader {
+	height: 5rem;
+	animation-name: bounce;
+	animation-timing-function: ease-in-out;
+	transform: translate(-50%, -50%);
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+}
+.c-loader__shadow {
+	animation-name: shadow;
+	animation-timing-function: ease-in-out;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	background: radial-gradient(50% 50%, #000 0%, rgba(255, 255, 255, 0) 100%);
+	height: 1.25rem;
+	width: 2.5rem;
+}
+.c-loader__text {
+	margin: var(--global-whitespace-sm);
+	font-size: 1.5rem;
+	text-align: center;
+}
+@keyframes bounce {
+	0% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-20px);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+@keyframes shadow {
+	0% {
+		background: radial-gradient(50% 50%, #000 20%, rgba(255, 255, 255, 0) 100%);
+	}
+	25% {
+		background: radial-gradient(50% 50%, #000 10%, rgba(255, 255, 255, 0) 100%);
+	}
+	50% {
+		background: radial-gradient(50% 50%, #000 1%, rgba(255, 255, 255, 0) 100%);
+	}
+	75% {
+		background: radial-gradient(50% 50%, #000 10%, rgba(255, 255, 255, 0) 100%);
+	}
+	100% {
+		background: radial-gradient(50% 50%, #000 20%, rgba(255, 255, 255, 0) 100%);
+	}
+}
+/*
+    Component: location error
+    ---
+    Getting location went wrong
+*/
+.c-location__error {
+	position: absolute;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	top: 50%;
+	left: 50%;
+	width: fit-content;
+	height: fit-content;
+	max-width: 90vw;
+	background-color: white;
+	box-shadow: var(--global-boxshadow);
+	border-radius: 20px;
+}
+.c-error__controls {
+	width: 100%;
+	display: flex;
+
+	justify-content: flex-end;
+}
+.c-close__error {
+	margin: var(--global-baseline);
+	border: none;
+	background: none;
+}
+.c-error__content {
+	margin: 0px var(--global-whitespace-sm) var(--global-baseline) var(--global-whitespace-sm);
+}
+/*------------------------------------*\
+#UTILITIES
+\*------------------------------------*/
+
+/*
+    Utilities: Mute
+    Mute with opacity
+*/
+.u-muted {
+	opacity: var(--muted-opacity);
+}
+/*------------------------------------*\
+#STATES
+\*------------------------------------*/
+
+/*
+    Change the theme using CSS vars.
+*/
+
+/* Night version: just switch the light and dark vars */
+
+/*------------------------------------*\
+#MEDIA
+\*------------------------------------*/
+
+/*
+    Print styles.
+    ---
+    Inlined to avoid the additional HTTP request:
+    http://www.phpied.com/delay-loading-your-print-css/
+*/
+
+@media print {
+	*,
+	*:before,
+	*:after {
+		background: transparent !important;
+		color: #000 !important;
+		/* Black prints faster:
+        http://www.sanbeiji.com/archives/953 */
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+	a,
+	a:visited {
+		text-decoration: underline;
+	}
+	a[href]:after {
+		content: ' (' attr(href) ')';
+	}
+	abbr[title]:after {
+		content: ' (' attr(title) ')';
+	}
+	/*
+    * Don't show links that are fragment identifiers,
+    * or use the `javascript:` pseudo protocol
+    */
+	a[href^='#']:after,
+	a[href^='javascript:']:after {
+		content: '';
+	}
+	pre {
+		white-space: pre-wrap !important;
+	}
+	pre,
+	blockquote {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+	/*
+    * Printing Tables:
+    * http://css-discuss.incutio.com/wiki/Printing_Tables
+    */
+	thead {
+		display: table-header-group;
+	}
+	tr,
+	img {
+		page-break-inside: avoid;
+	}
+	p,
+	h2,
+	h3 {
+		orphans: 3;
+		widows: 3;
+	}
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+}

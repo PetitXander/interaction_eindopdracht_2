@@ -1,13 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <script src="script/app.js"></script>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+		<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+		<!-- Load Esri Leaflet from CDN -->
+		<script src="https://unpkg.com/esri-leaflet@2.5.1/dist/esri-leaflet.js" integrity="sha512-q7X96AASUF0hol5Ih7AeZpRF6smJS55lcvy+GLWzJfZN+31/BQ8cgNx2FGF+IQSA4z2jHwB20vml+drmooqzzQ==" crossorigin=""></script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>einopdracht</title>
-</head>
-<body>
-    
-</body>
+		<!-- Load Esri Leaflet Geocoder from CDN -->
+		<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css" integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g==" crossorigin="" />
+		<script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js" integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA==" crossorigin=""></script>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<link rel="icon" href="MyIcon.png" type="image/png" />
+		<script src="script/app.js"></script>
+		<link rel="stylesheet" href="css/screen.css" />
+		<title>EveFind</title>
+	</head>
+	<body>
+		<div class="c-map js-map" id="mapid"></div>
+		<button class="c-getLocation js-getMyLocation"><span class="material-icons"> gps_fixed </span></button>
+		<div class="c-modal js-modal">
+			<div class="c-card js-card">
+				<div class="c-card__header">
+					<object class="js-card_img c-card__img" data="" type="image/svg+xml"></object>
+					<h1 class="js-card_title c-card__title"></h1>
+					<div class="c-card__controls">
+						<button class="c-card__nav-btn js-navigateTo"><span class="material-icons c-controls_icon"> near_me </span></button>
+						<button class="c-card__close-btn js-closeModal"><span class="material-icons c-controls_icon"> close </span></button>
+					</div>
+				</div>
+				<div class="c-card__main">
+					<div class="c-card_info">
+						<div class="c-card_info_address">
+							<span class="material-icons c-material-icons"> location_on </span>
+							<p class="js-card_info_addressTitle"></p>
+						</div>
+						<div class="c-card_info_contact">
+							<span class="material-icons c-material-icons"> phone </span>
+							<p class="js-card_info_contact"></p>
+						</div>
+						<div class="c-card_info_type">
+							<span class="material-icons c-material-icons"> power </span>
+							<p class="js-card_info_typeTitle"></p>
+						</div>
+					</div>
+					<div class="c-card_properties">
+						<h2 class="js-card_properties_available"></h2>
+						<div class="c-card_properties_icons">
+							<div class="c-card_property_icon js-card_properties_icons_membership">
+								<span class="material-icons"> card_membership </span>
+								<p class="c-card_properties_icons_membershipTitle">Membership</p>
+							</div>
+							<div class="c-card_property_icon js-card_properties_icons_pay">
+								<span class="material-icons"> credit_card </span>
+								<p class="c-card_properties_icons_payTitle">Pay at location</p>
+							</div>
+							<div class="c-card_property_icon js-card_properties_icons_charg">
+								<span class="material-icons"> battery_charging_full </span>
+								<p class="c-card_properties_icons_chargTitle">Fast charger</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p class="js-card_comment c-card__comment"></p>
+			</div>
+		</div>
+		<div class="c-loading-screen js-loader">
+			<svg class="c-loader" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74.12 110.79">
+				<defs>
+					<style>
+						.a {
+							fill: #7d7;
+						}
+					</style>
+				</defs>
+				<path class="a" d="M74.08,35.54A37.06,37.06,0,1,0,10.52,62.92l26.54,47.87L63.6,62.9A36.89,36.89,0,0,0,74.08,35.54ZM33,52.41l3.77-16.8-10.64-.18L41.93,11.88,36.57,28.43H48Z" />
+			</svg>
+			<div class="c-loader__shadow"></div>
+			<p class="c-loader__text">We are getting you the best charging spots!</p>
+		</div>
+		<div class="c-modal js-location__error">
+			<div class="c-location__error">
+				<div class="c-error__controls">
+					<button class="js-closeError c-close__error"><span class="material-icons"> close </span></button>
+				</div>
+				<div class="c-error__content">
+					<h2>Oops sorry! We weren't able to get your location.</h2>
+					<p>Make sure your location is turned on.<br />You can still make a manual search or try again later!</p>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

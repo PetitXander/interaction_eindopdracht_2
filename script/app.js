@@ -44,6 +44,29 @@ const searchOnMap = () => {
 	});
 };
 
+// show marker on map
+const chargerMarker = (chargingStation) => {
+	var chargerLocationIcon = L.icon({
+		iconUrl: './img/EvLocationIcon.png',
+		iconSize: [24, 32], // size of the icon
+		iconAnchor: [24, 32], // point of the icon which will correspond to marker's location
+		popupAnchor: [-12, -16], // point from which the popup should open relative to the iconAnchor
+	});
+	let chargingCoords = [];
+	chargingCoords.push(chargingStation.AddressInfo.Latitude);
+	chargingCoords.push(chargingStation.AddressInfo.Longitude);
+
+	marker = L.marker(chargingCoords, { icon: chargerLocationIcon }).addTo(layergroup);
+	marker.addEventListener('click', function () {
+		content = '<p class="c-popup">' + chargingStation.AddressInfo.Title + '<span class="material-icons">keyboard_arrow_up</span></p>';
+		popup = L.popup({ offset: [-12, -16] })
+			.setLatLng([chargingStation.AddressInfo.Latitude, chargingStation.AddressInfo.Longitude])
+			.setContent(content)
+			.openOn(map);
+		listenToPopUpClick(chargingStation);
+	});
+};
+
 // DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
     console.log('init');
