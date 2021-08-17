@@ -21,6 +21,29 @@ const initMap = () => {
 	searchControl = L.esri.Geocoding.geosearch().addTo(map);
 };
 
+//get user location
+const getLocation = () => {
+	console.log('GETLOCATION');
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(showPosition, showError, { timeout: 10000 });
+	} else {
+		console.log('Geolocation is not supported by this browser.');
+	}
+};
+
+// search on map
+const searchOnMap = () => {
+	results = L.layerGroup().addTo(map);
+	searchControl.on('results', function (data) {
+		results.clearLayers();
+		layergroup.clearLayers();
+		for (var i = data.results.length - 1; i >= 0; i--) {
+			results.addLayer(L.marker(data.results[i].latlng));
+			getAPI(data.results[i].latlng.lat, data.results[i].latlng.lng);
+		}
+	});
+};
+
 // DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function () {
     console.log('init');
