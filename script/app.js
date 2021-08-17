@@ -125,6 +125,41 @@ const chargerMarker = (chargingStation) => {
 	});
 };
 
+//popup click
+const listenToPopUpClick = (chargingStation) => {
+	console.log(popup);
+	console.log(this.popup);
+	L.DomEvent.on(popup._contentNode, 'click', function () {
+		console.log('In click ');
+		modal.style.display = 'flex';
+		showCard(chargingStation);
+	});
+};
+
+//navigate click
+const listenToControlsClick = (latitude, longitude) => {
+	navigateBtn.addEventListener('click', function () {
+		var url = 'http://www.google.com/maps/place/' + latitude + ',' + longitude;
+		window.open(url);
+	});
+	closeError.addEventListener('click', function () {
+		locationError.style.display = 'none';
+	});
+	closeBtn.addEventListener('click', function () {
+		console.log('close btn');
+		modal.style.display = 'none';
+	});
+	window.onclick = function (event) {
+		if (event.target == modal || event.target == locationError) {
+			modal.style.display = 'none';
+			locationError.style.display = 'none';
+		}
+	};
+};
+
+
+
+
 // show results
 const showResult = (chargingStations) => {
 	loader.style.opacity = '0';
@@ -134,6 +169,60 @@ const showResult = (chargingStations) => {
 	chargingStations.forEach((chargingStation) => {
 		chargerMarker(chargingStation);
 	});
+};
+
+
+//show card
+const showCard = (chargingStation) => {
+	try {
+		let fastCharging = false;
+		let imgNum = 1;
+		let NumOfChargers = 0;
+		console.log(chargingStation);
+		cardTitle.innerHTML = chargingStation.AddressInfo.Title;
+		cardAddress.innerHTML = `${chargingStation.AddressInfo.AddressLine1} , ${chargingStation.AddressInfo.Postcode} ${chargingStation.AddressInfo.Town} ${chargingStation.AddressInfo.Country.ISOCode}`;
+
+		//If json is null or undifined then number unknown
+		cardContact.innerHTML = chargingStation.AddressInfo.ContactTelephone1 || 'Number unknown';
+		if (chargingStation.Connections.length > 0) {
+			chargingStation.Connections.forEach((connection) => {
+				if (connection.Quantity != null) {
+					NumOfChargers += connection.Quantity;
+				} else {
+					NumOfChargers += 1;
+				}
+			});
+			cardType.innerHTML = chargingStation.Connections[0].Level.Title;
+			fastCharging = chargingStation.Connections[0].Level.IsFastChargeCapable;
+			imgNum = chargingStation.Connections[0].LevelID || 1;
+		} else {
+			cardType.innerHTML = 'Charging level unknown';
+			NumOfChargers = chargingStation.NumberOfPoints;
+		}
+		cardAvailable.innerHTML = `${NumOfChargers} <span class="c-app__slogan__coloured">chargers</span> available`;
+		cardComment.innerHTML = chargingStation.GeneralComments || chargingStation.AddressInfo.AccessComments || 'No extra charger information';
+		//Check if usage types available
+		if (chargingStation.UsageType != null) {
+			props = [chargingStation.UsageType.IsMembershipRequired, chargingStation.UsageType.IsPayAtLocation, fastCharging];
+			for (let i = 0; i < props.length; i++) {
+				if (props[i] == true) {
+					icons[i].style.opacity = '1';
+				} else {
+					icons[i].style.opacity = '0.2';
+				}
+			}
+		} else {
+			console.log('in else');
+			for (let i = 0; i < props.length; i++) {
+				icons[i].style.opacity = '0.2';
+			}
+		}
+
+		cardImage.data = images[imgNum - 1];
+		listenToControlsClick(chargingStation.AddressInfo.Latitude, chargingStation.AddressInfo.Longitude);
+	} catch (error) {
+		console.log('Data not provided', error);
+	}
 };
 
 //loction click
@@ -169,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	pay = document.querySelector('.js-card_properties_icons_pay');
 	charg = document.querySelector('.js-card_properties_icons_charg');
 	icons = [membership, pay, charg];
-	images = ['./img/chargerstation-03.svg', './img/RenewableGreenEnergy.svg', './img/SolarEnergyCarCharger.svg'];
+    images = ['./img/chargerstation-03.svg', './img/RenewableGreenEnergy.svg', './img/SolarEnergyCarCharger.svg'];
 	initMap();
 	listenToLocationClick();
 	getLocation();
